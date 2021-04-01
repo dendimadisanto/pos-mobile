@@ -1,8 +1,16 @@
-import React from 'react';
-import {  Item, Input } from 'native-base';
+import React, { useState } from 'react';
+import {  Item, Input, Icon } from 'native-base';
 import Text from '../../Text';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Touchable } from 'react-native';
+
+
 export default function InputField(props){
+    const [password, setShowPassword] = useState(false);
+
+    function handleClickBarcode(){
+        props.onBarcodeClick(true)
+    }
+
     return(
         <View style={props.style}>
         {
@@ -13,7 +21,20 @@ export default function InputField(props){
         }
         
         <Item rounded style={[ styles.defaultInput, props.error && styles.error ]}>
-            <Input secureTextEntry={props.type=='password' ? true : false} placeholder={props.placeholder} onChangeText={props.onChangeText} name={props.name} value={props.value ? props.value.toString(): null}  keyboardType={props.keyboardType}/>
+            <Input secureTextEntry={ props.type=='password' ? !password : null} placeholder={props.placeholder} onChangeText={props.onChangeText} name={props.name} value={props.value ? props.value.toString(): null}  keyboardType={props.keyboardType}/>
+            {
+                props.type == 'password' &&
+                <TouchableOpacity onPress={()=> setShowPassword(!password)} >
+                    <Icon name={ password ? 'eye-outline' : 'eye-off-outline'} />
+                </TouchableOpacity>
+             
+            }
+            {
+                props.type == 'barcode' && 
+                <TouchableOpacity onPress={handleClickBarcode}>
+                    <Icon name="qr-code-outline" />
+                </TouchableOpacity>
+            }
           </Item>
           {
               props.error &&

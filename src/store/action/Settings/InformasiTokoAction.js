@@ -1,4 +1,4 @@
-import { SelectQuery, UpdateQuery } from '@/commons/query';
+import { SelectQuery, CudQuery } from '@/commons/query';
 
 export const InformasiTokoAction = {
     getShopInformation,
@@ -33,7 +33,7 @@ export const InformasiTokoAction = {
             payload.email,
             payload.ppn
         ];
-        await UpdateQuery(" update informasi_toko set nama_toko = ?, telp = ?, alamat = ?, email = ?, ppn = ? ", params);
+        await CudQuery(" update informasi_toko set nama_toko = ?, telp = ?, alamat = ?, email = ?, ppn = ? ", params);
         dispatch(setLoading(false))
     }
   }

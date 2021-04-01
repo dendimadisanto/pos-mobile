@@ -12,7 +12,7 @@ export default function BottomNav(){
     }
     return(
         <FooterTab style={{backgroundColor:'white', justifyContent:'center'}}>
-              <View style={{padding:10,backgroundColor:COLORS.primary, height:'100%', width:'80%', borderRadius:10, display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
+              <View style={{padding:10,backgroundColor:COLORS.primary, height:'100%', width:'100%', display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
                   <TouchableOpacity>
                   <Image
                       style={styles.penjualanLogo}

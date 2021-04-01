@@ -1,26 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Image, View, TouchableOpacity} from 'react-native'
-import Text from '../../component/Text';
-import { Container, Header, Content, Footer, FooterTab, Button, Left, Right, Body} from 'native-base';
-import { COLORS } from '../../commons/color';
-import Menu from '../../component/Home/Menu';
-import BottomNav from '../../component/Main/BottomNav';
+import Text from '@/component/Text';
+import { Container, Header, Content , Left, Body} from 'native-base';
+import { Icon } from 'native-base';
+import { COLORS } from '@/commons/color';
+import Menu from '@/component/Home/Menu';
+import { useNavigation } from '@react-navigation/native';
 
-export default class Home extends Component {
-  render() {
+export default function Home() {
+  const navigation = useNavigation();
     return (
       <Container>
-        <Header style={{backgroundColor:"white"}}>
+        <Header style={{backgroundColor:"white"}} androidStatusBarColor='#F33643'>
           <Left>
-              <Text style={{width:100,color:COLORS.primary,fontSize:20}}>Kasir Pintar</Text>
+              <Text style={{width:300,color:COLORS.primary,fontSize:20}}>Kasir Pintar</Text>
           </Left>
           <Body></Body>
-          <Right>
-              <Image
-              style={styles.tinyLogo}
-              source={require('../../asset/icon/topIcon.png')}
-            />
-          </Right>
         </Header>
         <Content>
             <View style={{padding:20}}>
@@ -31,41 +26,29 @@ export default class Home extends Component {
                   <Text style={{fontSize:30}}>Manis Laris</Text>
               </View>
               <View style={{flexDirection:'row', display:'flex', justifyContent:'center'}}>
-                  <TouchableOpacity bordered style={styles.buttonPenjualan}>
-                  <Image
-                      style={styles.penjualanLogo}
-                      source={require('../../asset/icon/penjualan.png')}
-                    />
-                  <Text style={{color:'white'}}>Penjualan</Text>
+                  <TouchableOpacity bordered style={styles.buttonPenjualan} onPress={()=>navigation.navigate('Barang')}>
+                  <Icon name="calculator-outline" style={styles.icon}/>
+                  <Text style={styles.textPenjualan}>Penjualan</Text>
                 </TouchableOpacity>
                 <TouchableOpacity bordered style={styles.buttonDaftar}>
-                <Image
-                      style={styles.penjualanLogo}
-                      source={require('../../asset/icon/cart.png')}
-                    />
-                  <Text>Daftar Barang</Text>
+                <Icon name="cart-outline" style={styles.icon2}/>
+                  <View>
+                      <Text style={styles.textDaftarBarang}>Daftar</Text>
+                      <Text style={styles.textDaftarBarang}>Barang</Text>
+                  </View>
+                  
                 </TouchableOpacity>
             </View>
-            {/* awal menu */}
-                <Menu></Menu>
-            {/* akhir menu */}
             </View>
+            {/* awal menu */}
+            <Menu></Menu>
+            {/* akhir menu */}
         </Content>
-        <Footer>
-            <BottomNav></BottomNav>
-        </Footer>
       </Container>
     );
   }
-}
 
 const styles = StyleSheet.create({
-  tinyLogo: {
-    width: 20,
-    height: 20,
-  },
- 
- 
   buttonPenjualan:{
     height:100,
     width:150,
@@ -99,8 +82,18 @@ const styles = StyleSheet.create({
     elevation: 5,
     justifyContent:'space-around'
   },
-
-  textStyle:{
-    fontSize:15,
-  },  
+  textDaftarBarang:{
+    fontSize:16,fontWeight:'bold', color:COLORS.primary
+  },
+  textPenjualan:{
+    fontSize:16,fontWeight:'bold', color:'white'
+  },
+  icon:{
+    fontSize:50,
+    color:'white'
+  },
+  icon2:{
+    fontSize:50,
+    color:COLORS.primary
+  }
 });

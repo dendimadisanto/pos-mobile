@@ -9,9 +9,9 @@ export async function SelectQuery(query, params = []){
     return data;
   }
 
-  export async function UpdateQuery(query, params){
-    let updateQuery = await ExecuteQuery(query, params);
-    return updateQuery;
+  export async function CudQuery(query, params){
+    let CudQuery = await ExecuteQuery(query, params);
+    return CudQuery;
   }
 
 

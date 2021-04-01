@@ -8,8 +8,8 @@ export const SQL = {
 function connect(){
     global.db = SQLite.openDatabase(
       {
-        name: 'posApp.db',
-        createFromLocation : '~pos.db',
+        name: 'pos.db',
+        createFromLocation : 1,
       },
       () => { console.log('connect') },
       error => {

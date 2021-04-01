@@ -1,31 +1,37 @@
 const InitialState = {
     form:{
-        id:null,
-        username:null,
-        password:null,
-        usergroup:null
+        id:"",
+        kategori:""
+    },
+    InitForm:{
+        id:"",
+        kategori:""
     },
     data:[],
     loading:false,
-    usergroupData:null
 }
 
-export function Pengguna(state = InitialState, action){
+export function Kategori(state = InitialState, action){
     switch(action.type){
         case 'SET_DATA':
             return {
                 ...state,
                 data: action.payload
             };
+        case 'SET_DATA_FORM':
+            return {
+                ...state,
+                form: action.payload
+            };
         case 'SET_LOADING':
             return {
                 ...state,
                 loading: action.payload
             };
-        case 'SET_USERGROUP':
+        case 'SET_RESET_FORM':
             return {
                 ...state,
-                usergroupData: action.payload
+                form: state.InitForm
             };
         default:
             return state;

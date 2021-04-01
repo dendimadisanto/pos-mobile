@@ -6,20 +6,23 @@ import SearchField from '@/component/Form/SearchField';
 import HeaderMenu from '@/component/Main/Header';
 import Text from '@/component/Text';
 import { COLORS } from '@/commons/color';
-import { PenggunaAction } from '@/config/store/action';
+import { PenggunaAction } from '@/store/action';
 import Loading from '@/component/Loading';
 import AddButton from '@/component/AddButton'; 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+
 
 export default function Pengguna(){
     const dispatch = useDispatch();
     const data = useSelector(state=> state.Pengguna.data);
     const loading = useSelector(state=> state.Pengguna.loading);
     const navigation = useNavigation();
+    const isFocused = useIsFocused();
+
 
     useEffect(()=>{
         dispatch(PenggunaAction.getPengguna());
-    },[]);
+    },[isFocused]);
 
 
     function onPressDelete(id){
@@ -27,19 +30,34 @@ export default function Pengguna(){
             'Konfirmasi',
             'Yakin Ingin Dihapus',
             [
-              {text: 'Batal', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
-              {text: 'Setuju', onPress: () => console.warn(id)},
+              {text: 'Batal', style: 'cancel'},
+              {text: 'Setuju', onPress: () => handleDelete(id)},
             ]
           );
     }
 
-    function onAdd(){
-        navigation.navigate('FormPengguna')
+    async function handleDelete(id) {
+        await dispatch(PenggunaAction.Delete(id));
+        await dispatch(PenggunaAction.getPengguna());
     }
+    function onAdd(){
+        dispatch(PenggunaAction.resetForm());
+        navigation.navigate('FormPengguna', { idPengguna:"", flag:"Tambah" })
+    }
+
+    function handleEdit(id){
+       navigation.navigate('FormPengguna',{ idPengguna:id, flag:"Ubah" })
+    }
+
+    function handleSearch(event){
+        dispatch(PenggunaAction.getPengguna(event))
+    }
+
     function renderListPengguna(){
         return data.map((props, key)=>{
             return(
-                <SafeAreaView style={styles.pengguna} key = {key}>
+                <TouchableOpacity key = {key} onPress={()=>handleEdit(props.id)}>
+                    <SafeAreaView style={styles.pengguna} >
                     <SafeAreaView style={styles.keterangan}>
                     <Icon name="person-outline" style={styles.icon} />
                     </SafeAreaView>
@@ -52,7 +70,7 @@ export default function Pengguna(){
                         </TouchableOpacity>
                     </SafeAreaView>
                 </SafeAreaView>
-                
+                </TouchableOpacity>
             )
         })
     }
@@ -62,7 +80,7 @@ export default function Pengguna(){
              <Loading value={loading}></Loading>
             <HeaderMenu title="Pengguna"></HeaderMenu>
             <Content style={{padding:10}}>
-                <SearchField></SearchField>
+                <SearchField onChangeText={handleSearch}></SearchField>
                 {
                     data.length > 0 ? renderListPengguna() : null
                 }

@@ -3,7 +3,7 @@ import { Container,Content, Form } from 'native-base';
 import HeaderMenu from '@/component/Main/Header';
 import InputField from '@/component/Form/InputField';
 import { useDispatch, useSelector } from 'react-redux';
-import { InformasiTokoAction } from '@/config/store/action';
+import { InformasiTokoAction } from '@/store/action';
 import { StyleSheet } from 'react-native';
 import ButtonAction from '@/component/Form/Button';
 import TextAreaField from '@/component/Form/TextAreaField';

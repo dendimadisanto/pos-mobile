@@ -1,8 +1,9 @@
 import React from 'react';
 import { Header, Left, Right, Body } from 'native-base';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import Text from '../../Text';
-import COLORS from '@/commons/color';
+import { COLORS } from '@/commons/color';
+import { Icon } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 export default function HeaderMenu(props){
@@ -14,15 +15,12 @@ export default function HeaderMenu(props){
     return(
         <Header style={{backgroundColor:"white"}} androidStatusBarColor='#F33643'>
             <Left>
-                <Text style={{width:200,color:'black',fontSize:20}}>{props.title}</Text>
+                <Text style={{width:400,color:'black',fontSize:20}}>{props.title}</Text>
             </Left>
             <Body></Body>
             <Right>
                 <TouchableOpacity onPress={goBack}>
-                    <Image
-                    style={styles.tinyLogo}
-                    source={require('../../../asset/icon/back.png')}
-                    />
+                   <Icon name="return-up-back-sharp" style={styles.icon}></Icon>
                 </TouchableOpacity>
               
           </Right>
@@ -31,9 +29,8 @@ export default function HeaderMenu(props){
 }
 
 const styles = StyleSheet.create({
-    tinyLogo:{
-        width: 20,
-        height: 20,
-        resizeMode: 'stretch',
+    icon:{
+        fontSize:30,
+        color:COLORS.primary
     }
 })

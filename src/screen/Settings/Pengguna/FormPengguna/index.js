@@ -6,25 +6,50 @@ import PickerField from '@/component/Form/PickerField';
 import InputField from '@/component/Form/InputField';
 import ButtonAction from '@/component/Form/Button';
 import { useForm, Controller } from 'react-hook-form';
-import { PenggunaAction } from '@/config/store/action';
+import { PenggunaAction } from '@/store/action';
 import { useSelector, useDispatch } from 'react-redux';
 import Loading from '@/component/Loading';
 
-export default function FormPengguna(){
-    const { control, handleSubmit, errors } = useForm();
+export default function FormPengguna({ route, navigation }){
+    const { control, handleSubmit, errors, setValue } = useForm();
     const dispatch = useDispatch();
     const loading = useSelector(state=> state.Pengguna.loading);
     const dataUsergroup = useSelector(state => state.Pengguna.usergroupData)
+    const dataForm = useSelector(state => state.Pengguna.form)
+    const idPengguna = route.params.idPengguna;
     useEffect(()=>{
-        dispatch(PenggunaAction.getUserGroup());
+
+            fetch();
+
+            async function fetch(){
+                await dispatch(PenggunaAction.getUserGroup());
+    
+                if(idPengguna){
+                    await dispatch(PenggunaAction.getPenggunaById(idPengguna))
+                }
+        }
+       
     },[]);
-    function onSubmit(data){
+
+    useEffect(()=>{
+        if(dataForm.id != ""){
+            setValue("username", dataForm.username)
+            setValue("password", dataForm.password)
+            setValue("usergroupid", dataForm.usergroupid)
+        }
         
+    },[dataForm.id]);
+
+
+    async function onSubmit(data){
+        data.id = idPengguna;
+        await dispatch(PenggunaAction.Store(data));
+        navigation.navigate('Pengguna');
     }
     return(
         <Container>
             <Loading value={loading}></Loading>
-            <HeaderMenu title="Form Pengguna"></HeaderMenu>
+            <HeaderMenu title={` ${route.params.flag} Pengguna`}></HeaderMenu>
             <Content>
             <Form style={{padding:10}}>
             <Controller
@@ -33,7 +58,7 @@ export default function FormPengguna(){
                   }}
                 name="username"
                 control={control}
-                defaultValue=""
+                defaultValue={dataForm.username}
                 render={({ onChange, value }) => (
                     <InputField
                     onChangeText={(text) => onChange(text)}
@@ -51,8 +76,8 @@ export default function FormPengguna(){
                     required: { value: true, message: 'Password is required' }
                   }}
                     name="password"
+                    defaultValue={dataForm.password}
                     control={control}
-                    defaultValue=""
                     render={({ onChange, value }) => (
                         <InputField
                         onChangeText={(text) => onChange(text)}
@@ -68,19 +93,19 @@ export default function FormPengguna(){
                 />
 
             <Controller
-                name="usergroup"
+                name="usergroupid"
                 control={control}
                 rules={{
                     required: { value: true, message: 'Usergroup is required' }
                   }}
-                defaultValue=""
+                defaultValue={dataForm.usergroupid}
                 render={({ onChange, value }) => (
                    <PickerField 
                    fieldLabel="Usergroup" 
                    style={styles.field} 
-                   items={items}
+                   items={dataUsergroup}
                    onValueChange = {(text => onChange(text))} 
-                   value={dataUsergroup}
+                   value={value}
                    error={errors.usergroup}
                    errorText={errors?.usergroup?.message}
                    ></PickerField>

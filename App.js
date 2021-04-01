@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { SQL } from './src/config/SQLite';
-import StackNavigator from './src/config/navigation';
+import { SQL } from '@/config/SQLite';
+import StackNavigator from '@/navigation';
 import { Provider } from 'react-redux';
 
-import { store } from './src/config/store';
+import { store } from '@/store';
 SQL.connect();
 
 
